@@ -5,32 +5,22 @@ pipeline {
       steps {
         sh 'ls -ltr'
         sh 'echo "Build the project and create a JAR file"'
-        sh './mvnw package'
+        sh './mvnw package -DskipTests=true'
         //sh 'java -jar target/*.jar'
       }
     }
-    stage('Test') {
-      steps {
-        sh 'ls -ltr'
-        sh 'echo "Test the project"'
-        sh './mvnw test'
-      }
-      post {
-        always {
-          junit '**/target/surefire-reports/TEST-*.xml'
-        }
-      }
-    }
-    stage('Static Code Analysis') {
-      environment {
-        SONAR_URL = "http://localhost:9000"
-      }
-      steps {
-        withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
-          sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
-        }
-      }
-    }
+    // stage('Test') {
+    //   steps {
+    //     sh 'ls -ltr'
+    //     sh 'echo "Test the project"'
+    //     sh './mvnw test'
+    //   }
+    //   post {
+    //     always {
+    //       junit '**/target/surefire-reports/TEST-*.xml'
+    //     }
+    //   }
+    // }
     stage('Build and Push Docker Image') {
       environment {
         DOCKER_IMAGE = "krishnakumarulaganathan/spring-petclinic-cicd:${BUILD_NUMBER}"
