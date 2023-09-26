@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages {
+        environment {
+                DOCKER_IMAGE = "ukrishna88/spring-petclinic"
+                DOCKERFILE_LOCATION = "spring-petclinic/Dockerfile"
+                REGISTRY_CREDENTIALS = credentials('docker-cred')
+            }
         stage('Build') {
             steps {
                 sh 'ls -ltr'
@@ -30,11 +35,6 @@ pipeline {
     //   }
     // } 
         stage('Build Docker Image') {
-            environment {
-                DOCKER_IMAGE = "ukrishna88/spring-petclinic"
-                DOCKERFILE_LOCATION = "spring-petclinic/Dockerfile"
-                REGISTRY_CREDENTIALS = credentials('docker-cred')
-            }
             steps {
                 script {
                     sh 'docker info'
