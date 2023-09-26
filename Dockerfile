@@ -5,10 +5,10 @@ FROM adoptopenjdk/openjdk11:alpine-jre
 # Simply the artifact path
 ARG artifact=target/*.jar
 
-#WORKDIR /opt/app
-WORKDIR /Users/krishnakumarulaganathan/spring-petclinic
+# WORKDIR /opt/app
+# WORKDIR /Users/krishnakumarulaganathan/spring-petclinic
 
-COPY ${artifact} app.jar
+COPY ${artifact} spring-petclinic-maven-app.jar
 
 # This should not be changed
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","spring-petclinic-maven-app.jar"]
