@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                sh 'pwd'
                 sh 'ls -ltr'
                 sh 'echo "Build the project and create a JAR file"'
                 sh './mvnw package -DskipTests=true'
@@ -30,20 +31,26 @@ pipeline {
             }
             steps {
                 script {
+                    sh 'pwd'
+                    sh 'ls -ltr'
+                    sh 'echo "Building the Docker Image"'
                     sh 'docker info'
                     sh 'docker build -t ${DOCKER_IMAGE} .'
+                    sh 'echo "Building the Docker Image Complete"'
                     }
                 }
             } 
         stage('Push Docker Build to Hub') {
             steps {
                 script {
-                sh 'pwd'
-                sh 'ls -ltr'
-                    withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
-                        sh 'docker login -u ukrishna88 -p ${docker-cred}'
-                        sh 'docker push ukrishna88/spring-petclinic:${BUILD_NUMBER}'
-                    }
+                    sh 'pwd'
+                    sh 'ls -ltr'
+                    sh 'echo "Pushing the Docker Image"'
+                        withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
+                            sh 'docker login -u ukrishna88 -p ${docker-cred}'
+                            sh 'docker push ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+                        }
+                    sh 'echo "Pushing the Docker Image Complete"'
                 }
             }
         }
@@ -58,7 +65,7 @@ pipeline {
                         git config user.email "ukrishna88@gmail.com"
                         git config user.name "Krishnakumar Ulaganathan"
                         BUILD_NUMBER=${BUILD_NUMBER}
-                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" spring-petclinic/deployment.yml
+                        sed -i '' 's/replaceImageTag/${BUILD_NUMBER}/g' spring-petclinic/deployment.yml
                         git add spring-petclinic/deployment.yml
                         git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                         git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
