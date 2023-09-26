@@ -10,12 +10,12 @@ pipeline {
                 //sh 'java -jar target/*.jar'
             }
         }    
-        /* stage('Build Docker Image') {
+        stage('Build Docker Image') {
     	    agent any
                 steps {
-      	            sh 'docker build -t ukrishna88/spring-petclinic .'
+      	            sh 'docker build -t ukrishna88/spring-petclinic-3.1.0-SNAPSHOT.jar .'
                 }
-        } */
+        }
         }
     // stage('Test') {
     //   steps {
