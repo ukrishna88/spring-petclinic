@@ -1,1 +1,21 @@
-
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-petclinic-maven-app
+  labels:
+    app: spring-petclinic-maven-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spring-petclinic-maven-app
+  template:
+    metadata:
+      labels:
+        app: spring-petclinic-maven-app
+    spec:
+      containers:
+      - name: spring-petclinic-maven-app
+        image: krishnakumarulaganathan/spring-petclinic-cicd
+        ports:
+        - containerPort: 8081
