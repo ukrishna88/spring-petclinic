@@ -4,12 +4,12 @@
 FROM anapsix/alpine-java
 
 # Simply the artifact path
-ARG artifact=target/*.jar
+ARG artifact=target/spring-petclinic-3.1.0-SNAPSHOT.jar
 
 # WORKDIR /opt/app
 # WORKDIR /Users/krishnakumarulaganathan/spring-petclinic
 
-COPY ${artifact} spring-petclinic.jar
+COPY ${artifact} /Users/krishnakumarulaganathan/spring-petclinic/spring-petclinic-3.1.0-SNAPSHOT.jar
 
 # This should not be changed
-CMD ["java","-jar","spring-petclinic.jar"]
+CMD ["java","-jar","/Users/krishnakumarulaganathan/spring-petclinic/spring-petclinic-3.1.0-SNAPSHOT.jar"]
