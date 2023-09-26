@@ -44,13 +44,15 @@ pipeline {
             } 
         stage('Push Docker Build to Hub') {
             steps {
+                script {
                 sh 'ls -ltr'
                 sh 'echo ${CU}'
-                def dockerImage = docker.image("${DOCKER_IMAGE}")
+                //def dockerImage = docker.image("${DOCKER_IMAGE}")
                     docker.withRegistry('https://index.docker.io/v2/', "docker-cred") {
                         sh 'docker login -u ukrishna88 -p ${docker-cred}'
                         sh 'dockerImage.push ${DOCKER_IMAGE}'
                 //sh 'docker build . -t ukrishna88/spring-petclinic'
+                    }
                 }
             }
     // stage('Update Deployment File') {
