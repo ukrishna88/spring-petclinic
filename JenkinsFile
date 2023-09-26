@@ -21,6 +21,11 @@ pipeline {
         sh 'echo "Test the project"'
         sh './mvnw test'
       }
+      post {
+        always {
+          junit '**/target/surefire-reports/TEST-*.xml'
+        }
+      }
     }
     stage('Static Code Analysis') {
       environment {
