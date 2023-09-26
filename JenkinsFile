@@ -45,6 +45,7 @@ pipeline {
         stage('Push Docker Build to Hub') {
             steps {
                 script {
+                sh 'pwd'
                 sh 'ls -ltr'
                 sh 'echo ${CU}'
                 //def dockerImage = docker.image("${DOCKER_IMAGE}")
