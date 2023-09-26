@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: spring-petclinic-maven-app
-        image: krishnakumarulaganathan/spring-petclinic-cicd
+        image: krishnakumarulaganathan/spring-petclinic-cicd:replaceImageTag
         ports:
         - containerPort: 8081
