@@ -8,7 +8,7 @@ ARG artifact=target/*.jar
 # WORKDIR /opt/app
 # WORKDIR /Users/krishnakumarulaganathan/spring-petclinic
 
-COPY ${artifact} spring-petclinic-maven-app.jar
+COPY ${artifact} spring-petclinic.jar
 
 # This should not be changed
-ENTRYPOINT ["java","-jar","spring-petclinic-maven-app.jar"]
+ENTRYPOINT ["java","-jar","spring-petclinic.jar"]
