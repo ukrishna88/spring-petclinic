@@ -1,7 +1,8 @@
 pipeline {
   agent {
     docker {
-      image 'krishnakumarulaganathan/maven-krishna-docker-agent:v1'
+      //image 'krishnakumarulaganathan/maven-krishna-docker-agent:v1'
+      image 'mvnw spring-boot:build-image'
       args '--user root -v /Users/krishnakumarulaganathan/.docker/run/docker.sock:/Users/krishnakumarulaganathan/.docker/run/docker.sock' // mount Docker socket to access the host's Docker daemon
     }
   }
