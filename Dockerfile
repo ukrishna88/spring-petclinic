@@ -6,7 +6,7 @@ FROM adoptopenjdk/openjdk11:alpine-jre
 ARG artifact=target/*.jar
 
 #WORKDIR /opt/app
-WORKDIR /Users/krishnakumarulaganathan/app
+WORKDIR /Users/krishnakumarulaganathan/spring-petclinic
 
 COPY ${artifact} app.jar
 
