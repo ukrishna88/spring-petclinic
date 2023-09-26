@@ -36,7 +36,7 @@ pipeline {
     // } 
     stage('Build and Push Docker Image') {
       environment {
-        DOCKER_IMAGE = "ukrishna88/spring-petclinic:${BUILD_NUMBER}"
+        DOCKER_IMAGE = "ukrishna88/spring-petclinic-3.1.0-SNAPSHOT:${BUILD_NUMBER}"
         // DOCKERFILE_LOCATION = "spring-petclinic/Dockerfile"
         REGISTRY_CREDENTIALS = credentials('docker-cred')
       }
