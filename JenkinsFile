@@ -1,11 +1,6 @@
 pipeline {
     agent any
     stages {
-        environment {
-                DOCKER_IMAGE = "ukrishna88/spring-petclinic"
-                DOCKERFILE_LOCATION = "spring-petclinic/Dockerfile"
-                REGISTRY_CREDENTIALS = credentials('docker-cred')
-            }
         stage('Build') {
             steps {
                 sh 'ls -ltr'
@@ -35,6 +30,11 @@ pipeline {
     //   }
     // } 
         stage('Build Docker Image') {
+            environment {
+                DOCKER_IMAGE = "ukrishna88/spring-petclinic"
+                DOCKERFILE_LOCATION = "spring-petclinic/Dockerfile"
+                REGISTRY_CREDENTIALS = credentials('docker-cred')
+            }
             steps {
                 script {
                     sh 'docker info'
@@ -52,8 +52,7 @@ pipeline {
                   //  docker.withRegistry('https://index.docker.io/v2/', "docker-cred") {
                     withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
                         sh 'docker login -u ukrishna88 -p ${docker-cred}'
-                        sh 'docker push ${DOCKER_IMAGE}'
-                //sh 'docker build . -t ukrishna88/spring-petclinic'
+                        sh 'docker push ukrishna88/spring-petclinic'
                     }
                 }
             }
