@@ -7,7 +7,6 @@ EXPOSE 8081
 # Simply the artifact path
 ARG artifact=target/spring-petclinic.jar
 
-# WORKDIR /opt/app
 # WORKDIR /Users/krishnakumarulaganathan/spring-petclinic
 
 COPY ${artifact} /spring-petclinic.jar
