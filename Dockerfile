@@ -11,4 +11,4 @@ ARG artifact=target/*.jar
 COPY ${artifact} spring-petclinic.jar
 
 # This should not be changed
-ENTRYPOINT ["java","-jar","spring-petclinic.jar"]
+CMD ["java","-jar","spring-petclinic.jar"]
