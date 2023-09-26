@@ -240,7 +240,7 @@
                 <encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
                 <java.source>${java.version}</java.source>
                 <java.target>${java.version}</java.target>
-                <imageName>${module.image.name}</imageName>
+                <!--<imageName>${module.image.name}</imageName> -->
               </additionalProperties>
             </configuration>
           </execution>
