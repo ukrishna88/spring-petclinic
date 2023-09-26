@@ -1,11 +1,11 @@
 pipeline {
   agent none
-  stages {
+  stages 
     stage('Build') {
       steps {
         sh 'ls -ltr'
         sh 'echo "Build the project and create a JAR file"'
-        sh './mvnw package'
+        sh 'mvnw package'
         sh 'java -jar target/*.jar'
       }
     }
@@ -13,7 +13,7 @@ pipeline {
       steps {
         sh 'ls -ltr'
         sh 'echo "Test the project"'
-        sh './mvnw test'
+        sh 'mvnw test'
       }
       post {
         always {
@@ -65,6 +65,5 @@ pipeline {
                 '''
             }
         }
-    }
     }
 }
