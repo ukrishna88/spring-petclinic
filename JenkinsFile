@@ -1,23 +1,25 @@
 pipeline {
-  agent {
-    docker {
-      sh './mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=spring-petclinic-app-maven'
-      // image 'testcontainers/ryuk:0.5.1'
-      args '--user root -v /Users/krishnakumarulaganathan/.docker/run/docker.sock:/Users/krishnakumarulaganathan/.docker/run/docker.sock' // mount Docker socket to access the host's Docker daemon
-    }
-  }
+  agent none
   stages {
     stage('Checkout') {
       steps {
         sh 'echo passed'
-        //git branch: 'main', url: 'https://github.com/ukrishna88/spring-petclinic.git'
+        git branch: 'main', url: 'https://github.com/ukrishna88/spring-petclinic.git'
       }
     }
-    stage('Build and Test') {
+    stage('Build') {
       steps {
         sh 'ls -ltr'
-        // build the project and create a JAR file
-        sh 'mvnw package'
+        sh 'echo "Build the project and create a JAR file"'
+        sh './mvnw package'
+        sh 'java -jar target/*.jar'
+      }
+    }
+    stage('Test') {
+      steps {
+        sh 'ls -ltr'
+        sh 'echo "Test the project"'
+        sh './mvnw test'
       }
     }
     stage('Static Code Analysis') {
