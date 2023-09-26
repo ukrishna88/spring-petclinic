@@ -1,11 +1,11 @@
 pipeline {
-  agent {
-    docker {
+  agent //{
+    //docker {
         //label 'docker'
-        image 'mysql:8.0'
-        args '-v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
-    }
-  }
+        //image 'mysql:8.0'
+       // args '-v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+  //  }
+ // }
   stages {
     stage('Checkout') {
       steps {
