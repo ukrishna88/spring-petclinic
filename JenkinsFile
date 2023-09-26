@@ -27,7 +27,8 @@ pipeline {
         stage('Build Docker Image') {
             environment {
                 DOCKER_IMAGE = "ukrishna88/spring-petclinic:${BUILD_NUMBER}"
-                DOCKERFILE_LOCATION = "spring-petclinic/Dockerfile"
+                DOCKERFILE_LOCATION = "{$JOB_NAME}/Dockerfile" 
+                //DOCKERFILE_LOCATION = "spring-petclinic/Dockerfile"
                 REGISTRY_CREDENTIALS = credentials('docker-cred')
             }
             steps {
