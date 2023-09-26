@@ -6,15 +6,16 @@ pipeline {
                 sh 'ls -ltr'
                 sh 'echo "Build the project and create a JAR file"'
                 sh './mvnw package -DskipTests=true'
+                sh 'echo "Build generated successfully and created a JAR file"'
                 //sh 'java -jar target/*.jar'
             }
         }    
-        stage('Build Docker Image') {
+        /* stage('Build Docker Image') {
     	    agent any
                 steps {
-      	            sh 'docker build -t ukrishna88/spring-petclinic:latest .'
+      	            sh 'docker build -t ukrishna88/spring-petclinic .'
                 }
-        }
+        } */
         }
     // stage('Test') {
     //   steps {
