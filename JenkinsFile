@@ -12,18 +12,18 @@ pipeline {
                 //sh 'java -jar target/*.jar'
             }
         }    
-    // stage('Test') {
-    //   steps {
-    //     sh 'ls -ltr'
-    //     sh 'echo "Test the project"'
-    //     sh './mvnw test'
-    //   }
-    //   post {
-    //     always {
-    //       junit '**/target/surefire-reports/TEST-*.xml'
-    //     }
-    //   }
-    // } 
+        stage('Test') {
+            steps {
+                sh 'ls -ltr'
+                sh 'echo "Test the project"'
+                sh './mvnw test'
+            }
+            post {
+                always {
+                junit '**/target/surefire-reports/TEST-*.xml'
+                }
+            }
+        }
         stage('Build Docker Image') {
             environment {
                 DOCKER_IMAGE = "ukrishna88/spring-petclinic:${BUILD_NUMBER}"
@@ -39,24 +39,61 @@ pipeline {
                     sh 'docker info'
                     sh 'docker build -t ${DOCKER_IMAGE} .'
                     sh 'echo "Building the Docker Image Complete"'
-                    }
                 }
-            } 
+            }
+        } 
         stage('Push Docker Build to Hub') {
             steps {
                 script {
                     sh 'pwd'
                     sh 'ls -ltr'
-                    sh 'echo "Pushing the Docker Image"'
+                    sh 'echo "Pushing the Docker Image to Docker Hub"'
                         withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
                             sh 'docker login -u ukrishna88 -p ${docker-cred}'
                             sh 'docker push ukrishna88/spring-petclinic:${BUILD_NUMBER}'
                         }
-                    sh 'echo "Pushing the Docker Image Complete"'
+                    sh 'echo "Pushing the Docker Image to Docker Hub Complete"'
                 }
             }
         }
-        stage('Update Deployment File') {
+        stage('Pull Docker Image from Hub') {
+            steps {
+                script {
+                    sh 'pwd'
+                    sh 'ls -ltr'
+                    sh 'echo "Pulling the Docker Image from the Docker Hub"'
+                    sh 'docker image ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+                    sh 'docker images'    
+                        /* withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
+                            sh 'docker login -u ukrishna88 -p ${docker-cred}'
+                            sh 'docker image ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+                        } */
+                    sh 'ls -ltr'
+                    sh 'echo "Pulling the Docker Image from the Docker Hub Complete"'
+                }
+            }
+        }
+        stage('Update Docker File to Git') {
+            environment {
+                GIT_REPO_NAME = "spring-petclinic"
+                GIT_USER_NAME = "ukrishna88"
+            }
+            steps {
+                withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]){
+                    sh '''
+                        git config user.email "ukrishna88@gmail.com"
+                        git config user.name "Krishnakumar Ulaganathan"
+                        git rev-parse --show-toplevel
+                        git add Jenkinsfile$ git commit -m 'Added Docker Build Stage'
+                        sed -i '' "s/replaceImageTag/${BUILD_NUMBER}/g" ${JOB_NAME}/deployment.yml
+                        git add ${JOB_NAME}/deployment.yml
+                        git commit -m "Update deployment image to version ${BUILD_NUMBER}"
+                        git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                    '''
+                }
+            }
+        }
+        /* stage('Update Deployment File') {
             environment {
                 GIT_REPO_NAME = "spring-petclinic"
                 GIT_USER_NAME = "ukrishna88"
@@ -76,6 +113,6 @@ pipeline {
                     '''
                 }
             }
-        }
+        } */
     }
 }
