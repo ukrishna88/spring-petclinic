@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-        image 'goofy_curie/mysql:8.0'
+        image 'mysql:8.0'
         args '--user root -v /Users/krishnakumarulaganathan/.docker/run/docker.sock:/Users/krishnakumarulaganathan/.docker/run/docker.sock' // mount Docker socket to access the host's Docker daemon
     }
   }
