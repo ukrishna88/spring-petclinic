@@ -8,6 +8,7 @@ pipeline {
                 sh './mvnw package -DskipTests=true'
                 //sh 'java -jar target/*.jar'
             }
+        }    
         stage('Build Docker Image') {
     	    agent any
                 steps {
@@ -70,5 +71,4 @@ pipeline {
     //         }
     //     }
     // }
-}
 }
