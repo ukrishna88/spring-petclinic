@@ -5,12 +5,12 @@ FROM openjdk:8
 EXPOSE 8081
 
 # Simply the artifact path
-ARG artifact=target/spring-petclinic-3.1.0-SNAPSHOT.jar
+ARG artifact=target/spring-petclinic.jar
 
 # WORKDIR /opt/app
 # WORKDIR /Users/krishnakumarulaganathan/spring-petclinic
 
-COPY ${artifact} /Users/krishnakumarulaganathan/spring-petclinic/spring-petclinic-3.1.0-SNAPSHOT.jar
+COPY ${artifact} /Users/krishnakumarulaganathan/spring-petclinic/spring-petclinic.jar
 
 # This should not be changed
-ENTRYPOINT ["java","-jar","/Users/krishnakumarulaganathan/spring-petclinic/spring-petclinic-3.1.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","/Users/krishnakumarulaganathan/spring-petclinic/spring-petclinic.jar"]

@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: spring-petclinic
-        image: ukrishna88/spring-petclinic:replaceImageTag
+        image: ukrishna88/spring-petclinic/:IreplaceImageTag
         ports:
-        - containerPort: 8081
+        - containerPort: 8081I
