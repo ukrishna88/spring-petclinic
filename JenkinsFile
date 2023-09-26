@@ -50,6 +50,8 @@ pipeline {
     stage('Docker Build') {
     	agent any
       steps {
+        sh 'ls -ltr'
+        sh 'echo pwd '
       	sh 'docker build . -t krishnakumarulaganathan/spring-petclinic'
       }
     }
