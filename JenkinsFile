@@ -52,7 +52,7 @@ pipeline {
                   //  docker.withRegistry('https://index.docker.io/v2/', "docker-cred") {
                     withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
                         sh 'docker login -u ukrishna88 -p ${docker-cred}'
-                        sh 'dockerImage.push ${DOCKER_IMAGE}'
+                        sh 'docker push ${DOCKER_IMAGE}'
                 //sh 'docker build . -t ukrishna88/spring-petclinic'
                     }
                 }
