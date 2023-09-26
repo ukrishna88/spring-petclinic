@@ -6,7 +6,7 @@ pipeline {
         sh 'ls -ltr'
         sh 'echo "Build the project and create a JAR file"'
         sh './mvnw package'
-        sh 'java -jar target/*.jar'
+        //sh 'java -jar target/*.jar'
       }
     }
     stage('Test') {
