@@ -30,29 +30,29 @@ pipeline {
     //   }
     // } 
         stage('Build Docker Image') {
-        environment {
-            DOCKER_IMAGE = "ukrishna88/spring-petclinic"
-            DOCKERFILE_LOCATION = "spring-petclinic/Dockerfile"
-            REGISTRY_CREDENTIALS = credentials('docker-cred')
-        }
-        steps {
-            script {
-                sh 'docker info'
-                sh 'docker build -t ${DOCKER_IMAGE} .'
+            environment {
+                DOCKER_IMAGE = "ukrishna88/spring-petclinic"
+                DOCKERFILE_LOCATION = "spring-petclinic/Dockerfile"
+                REGISTRY_CREDENTIALS = credentials('docker-cred')
+            }
+            steps {
+                script {
+                    sh 'docker info'
+                    sh 'docker build -t ${DOCKER_IMAGE} .'
+                    }
+                }
+            } 
+        stage('Push Docker Build to Hub') {
+            steps {
+                sh 'ls -ltr'
+                sh 'echo ${CU}'
                 def dockerImage = docker.image("${DOCKER_IMAGE}")
-                docker.withRegistry('https://index.docker.io/v2/', "docker-cred") {
-                dockerImage.push()
+                    docker.withRegistry('https://index.docker.io/v2/', "docker-cred") {
+                        sh 'docker login -u ukrishna88 -p ${docker-cred}'
+                        sh 'dockerImage.push ${DOCKER_IMAGE}'
+                //sh 'docker build . -t ukrishna88/spring-petclinic'
                 }
             }
-        } 
-   /*  stage('Docker Build') {
-    	agent any
-      steps {
-        sh 'ls -ltr'
-        sh 'echo ${CU}'
-      	sh 'docker build . -t krishnakumarulaganathan/spring-petclinic'
-      }
-    } */
     // stage('Update Deployment File') {
     //     environment {
     //         GIT_REPO_NAME = "spring-petclinic"
