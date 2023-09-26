@@ -241,7 +241,6 @@
                 <java.source>${java.version}</java.source>
                 <java.target>${java.version}</java.target>
                 <!--<imageName>${module.image.name}</imageName> -->
-                <finalName>spring-petclinic</finalName>
               </additionalProperties>
             </configuration>
           </execution>
@@ -279,6 +278,7 @@
       </plugin>
 
     </plugins>
+    <finalName>spring-petclinic</finalName>
   </build>
 
   <licenses>
