@@ -1,27 +1,20 @@
 pipeline {
-    agent {
-        docker { image 'maven:3.5.0'}
-    }
+    agent any {
     stages {
-        stage('Maven Docker Install'){
-            steps ('Maven Install'){
-      	        sh 'mvn clean install'
-      }
-    }
-        stage('Docker Build') {
-    	agent any
+        stage('Build') {
             steps {
-      	        sh 'docker build -t ukrishna88/spring-petclinic:latest .'
-      }
-    }
-    // stage('Build') {
-    //   steps {
-    //     sh 'ls -ltr'
-    //     sh 'echo "Build the project and create a JAR file"'
-    //     sh './mvnw package -DskipTests=true'
-    //     //sh 'java -jar target/*.jar'
-    //   }
-    // }
+                sh 'ls -ltr'
+                sh 'echo "Build the project and create a JAR file"'
+                sh './mvnw package -DskipTests=true'
+                //sh 'java -jar target/*.jar'
+            }
+        stage('Build Docker Image') {
+    	    agent any
+                steps {
+      	            sh 'docker build -t ukrishna88/spring-petclinic:latest .'
+                }
+        }
+        }
     // stage('Test') {
     //   steps {
     //     sh 'ls -ltr'
@@ -34,23 +27,22 @@ pipeline {
     //     }
     //   }
     // } 
-    stage('Build Docker Image') {
-      environment {
-        DOCKER_IMAGE = "ukrishna88/spring-petclinic:${BUILD_NUMBER}"
-        // DOCKERFILE_LOCATION = "spring-petclinic/Dockerfile"
-        //REGISTRY_CREDENTIALS = credentials('docker-cred')
-      }
-      steps {
-        script {
-            sh 'docker info'
-            sh 'docker build -t ${DOCKER_IMAGE} .'
-            def dockerImage = docker.image("${DOCKER_IMAGE}")
-            //docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
-                //dockerImage.push()
-            }
-        }
-      }
-    } 
+    // stage('Build Docker Image') {
+    //   environment {
+    //     DOCKER_IMAGE = "ukrishna88/spring-petclinic:${BUILD_NUMBER}"
+    //     // DOCKERFILE_LOCATION = "spring-petclinic/Dockerfile"
+    //     //REGISTRY_CREDENTIALS = credentials('docker-cred')
+    //   }
+    //   steps {
+    //     script {
+    //         sh 'docker info'
+    //         sh 'docker build -t ${DOCKER_IMAGE} .'
+    //         def dockerImage = docker.image("${DOCKER_IMAGE}")
+    //         //docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
+    //             //dockerImage.push()
+    //         }
+    //     }
+    //   } 
    /*  stage('Docker Build') {
     	agent any
       steps {
@@ -78,4 +70,6 @@ pipeline {
     //         }
     //     }
     // }
+}
+}
 }
