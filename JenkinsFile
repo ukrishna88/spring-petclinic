@@ -1,24 +1,27 @@
 pipeline {
-    agent any
-  stages {
-    /* stage('Maven Docker Install') {
-        steps {
-            docker {
-        	image 'maven:3.5.0'
-        }
-        }
-      }
+    agent {
+        docker { image 'maven:3.5.0'}
+    }
+    stages {
+        stage('Maven Docker Install'){
       steps ('Maven Install'){
       	sh 'mvn clean install'
-      } */
-    stage('Build') {
-      steps {
-        sh 'ls -ltr'
-        sh 'echo "Build the project and create a JAR file"'
-        sh './mvnw package -DskipTests=true'
-        //sh 'java -jar target/*.jar'
       }
     }
+    stage('Docker Build') {
+    	agent any
+      steps {
+      	sh 'docker build -t ukrishna88/spring-petclinic:latest .'
+      }
+    }
+    // stage('Build') {
+    //   steps {
+    //     sh 'ls -ltr'
+    //     sh 'echo "Build the project and create a JAR file"'
+    //     sh './mvnw package -DskipTests=true'
+    //     //sh 'java -jar target/*.jar'
+    //   }
+    // }
     // stage('Test') {
     //   steps {
     //     sh 'ls -ltr'
