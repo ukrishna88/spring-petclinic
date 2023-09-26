@@ -1,24 +1,24 @@
 pipeline {
     agent any
   stages {
-    stage('Maven Install') {
+    /* stage('Maven Docker Install') {
         steps {
             docker {
         	image 'maven:3.5.0'
         }
         }
       }
-      steps {
+      steps ('Maven Install'){
       	sh 'mvn clean install'
+      } */
+    stage('Build') {
+      steps {
+        sh 'ls -ltr'
+        sh 'echo "Build the project and create a JAR file"'
+        sh './mvnw package -DskipTests=true'
+        //sh 'java -jar target/*.jar'
       }
-    // stage('Build') {
-    //   steps {
-    //     sh 'ls -ltr'
-    //     sh 'echo "Build the project and create a JAR file"'
-    //     sh './mvnw package -DskipTests=true'
-    //     //sh 'java -jar target/*.jar'
-    //   }
-    // }
+    }
     // stage('Test') {
     //   steps {
     //     sh 'ls -ltr'
