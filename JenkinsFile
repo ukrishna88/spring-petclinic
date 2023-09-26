@@ -1,6 +1,6 @@
 pipeline {
   agent none
-  stages 
+  stages {
     stage('Build') {
       steps {
         sh 'ls -ltr'
@@ -66,5 +66,5 @@ pipeline {
             }
         }
     }
-  }
+    }
 }
