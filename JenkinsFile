@@ -50,7 +50,7 @@ pipeline {
                 //sh 'echo ${CU}'
                 //def dockerImage = docker.image("${DOCKER_IMAGE}")
                   //  docker.withRegistry('https://index.docker.io/v2/', "docker-cred") {
-                    withCredentials([string(credentialsId: 'docker-cred', variable: 'docker-cred')]){
+                    withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
                         sh 'docker login -u ukrishna88 -p ${docker-cred}'
                         sh 'dockerImage.push ${DOCKER_IMAGE}'
                 //sh 'docker build . -t ukrishna88/spring-petclinic'
