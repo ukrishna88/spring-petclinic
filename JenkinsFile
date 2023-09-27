@@ -89,6 +89,7 @@ pipeline {
         stage('Load & Run the Docker Image Locally') {
             steps {
                 script {
+                    try {
                     sh 'pwd'
                     sh 'cd "/Users/krishnakumarulaganathan/"'
                     sh 'pwd'
@@ -97,7 +98,12 @@ pipeline {
                     sh 'ls -ltr'
                     sh 'echo "Running the Docker Image from Local"'
                     sh 'docker run --detach --name spring-petclinic -p 8081:8081 ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+                    } catch (err) {
+                        echo err.getMessage()   
+                    }
+                echo currentBuild.result
                     sh 'echo "Running the Docker Image from Local Successfully'
+
                 }
             }
         }
