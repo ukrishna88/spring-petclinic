@@ -102,12 +102,10 @@ pipeline {
             }
         }
         stage('Run the Docker Image Locally') {
-                agent {
-                    steps {
+                steps {
                         docker {
                             image 'ukrishna88/spring-petclinic:${BUILD_NUMBER}'
                             }
-                    }
                 }
         }
         /* stage('Update Docker File to Git') {
