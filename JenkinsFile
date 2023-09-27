@@ -69,7 +69,6 @@ pipeline {
                             sh 'docker login -u ukrishna88 -p ${docker-cred}'
                             sh 'docker image ukrishna88/spring-petclinic:${BUILD_NUMBER}'
                         } */
-                    sh 'ls -ltr'
                     sh 'echo "Pulling the Docker Image from the Docker Hub Complete"'
                 }
             }
@@ -79,16 +78,14 @@ pipeline {
                 script {
                     sh 'pwd'
                     sh 'ls -ltr'
-                    sh 'echo "$HOME"'
+                    //sh 'echo "$HOME"'
                     sh 'echo "Saving the Docker Image Locally"'
                     sh 'docker save ukrishna88/spring-petclinic:${BUILD_NUMBER} >  ./target/spring-petclinic:${BUILD_NUMBER}.tar'
-                    sh 'ls -ltr'
                     sh 'echo "Saving Docker Image Locally Successful"' 
                         /* withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
                             sh 'docker login -u ukrishna88 -p ${docker-cred}'
                             sh 'docker image ukrishna88/spring-petclinic:${BUILD_NUMBER}'
                         } */
-                    sh 'ls -ltr'
                 }
             }
         }
@@ -103,11 +100,9 @@ pipeline {
                         git config user.email "ukrishna88@gmail.com"
                         git config user.name "Krishnakumar Ulaganathan"
                         git rev-parse --show-toplevel
-                        git add Jenkinsfile$ git commit -m 'Added Docker Build Stage'
-                        sed -i '' "s/replaceImageTag/${BUILD_NUMBER}/g" ${JOB_NAME}/deployment.yml
-                        git add ${JOB_NAME}/deployment.yml
-                        git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-                        git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                        git add /target/spring-petclinic:${BUILD_NUMBER}.tar
+                        git commit -m 'Added Uploading Docker File to Git'
+                        git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:${BRANCH}
                     '''
                 }
             }
