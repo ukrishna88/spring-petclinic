@@ -10,7 +10,7 @@ pipeline {
                 sh './mvnw clean'
                 sh './mvnw package -DskipTests=true'
                 sh 'echo "Build generated successfully and created a JAR file"'
-                sh 'java -jar target/*.jar'
+                sh 'java -jar target/*.jar &'
             }
         }    
         // stage('Test') {
