@@ -86,6 +86,21 @@ pipeline {
                 }
             }
         }
+        stage('Load & Run the Docker Image Locally') {
+            steps {
+                script {
+                    sh 'pwd'
+                    sh 'cd "/Users/krishnakumarulaganathan/"'
+                    sh 'pwd'
+                    sh 'echo "Loading the Docker Image from Local"'
+                    //sh 'docker load < spring-petclinic:${BUILD_NUMBER}'
+                    sh 'ls -ltr'
+                    sh 'echo "Running the Docker Image from Local"'
+                    sh 'docker run -p 8081:8081 --name spring-petclinic -it ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+                    sh 'echo "Saving Docker Image Locally Successful"'
+                }
+            }
+        }
         /* stage('Update Docker File to Git') {
             environment {
                 GIT_REPO_NAME = "spring-petclinic"
