@@ -81,11 +81,7 @@ pipeline {
                     //sh 'echo "$HOME"'
                     sh 'echo "Saving the Docker Image Locally"'
                     sh 'docker save ukrishna88/spring-petclinic:${BUILD_NUMBER} >  ./target/spring-petclinic:${BUILD_NUMBER}.tar'
-                    sh 'echo "Saving Docker Image Locally Successful"' 
-                        /* withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
-                            sh 'docker login -u ukrishna88 -p ${docker-cred}'
-                            sh 'docker image ukrishna88/spring-petclinic:${BUILD_NUMBER}'
-                        } */
+                    sh 'echo "Saving Docker Image Locally Successful"'
                 }
             }
         }
@@ -96,7 +92,7 @@ pipeline {
             }
             steps {
                 script {
-                    cd cd "${WORKSPACE}/target"
+                    sh 'cd "${WORKSPACE}/target"'
                 }
                 withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]){
                     sh '''
