@@ -100,7 +100,7 @@ pipeline {
                         git ls-files
                         git add .
                         git commit -m 'Added Uploading Docker File to Git'
-                        git remote add origin git@github.com:${GIT_USER_NAME}/${GIT_REPO_NAME}.git
+                        git remote set url https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}
                         git push -u origin ${BRANCH}
                     '''
                 }
