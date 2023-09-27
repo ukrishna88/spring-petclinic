@@ -97,7 +97,7 @@ pipeline {
                     sh 'ls -ltr'
                     sh 'echo "Running the Docker Image from Local"'
                     sh 'docker run -p 8081:8081 --name spring-petclinic ukrishna88/spring-petclinic:${BUILD_NUMBER} &'
-                    sh 'echo "Saving Docker Image Locally Successful"'
+                    sh 'echo "Running the Docker Image from Local Successfully'
                 }
             }
         }
