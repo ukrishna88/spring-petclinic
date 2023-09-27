@@ -98,7 +98,7 @@ pipeline {
                         git config user.name "Krishnakumar Ulaganathan"
                         git rev-parse --show-toplevel
                         git ls-files
-                        git add spring-petclinic/${BUILD_NUMBER}.tar
+                        git add .
                         git commit -m 'Added Uploading Docker File to Git'
                         git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:${BRANCH}
                     '''
