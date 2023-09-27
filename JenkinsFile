@@ -86,7 +86,7 @@ pipeline {
                 }
             }
         }
-        stage('Update Docker File to Git') {
+        /* stage('Update Docker File to Git') {
             environment {
                 GIT_REPO_NAME = "spring-petclinic"
                 GIT_USER_NAME = "ukrishna88"
@@ -109,7 +109,7 @@ pipeline {
                     sh 'rm spring-petclinic/${BUILD_NUMBER}.tar'
                 }
             }
-        }
+        } */
         /* stage('Update Deployment File') {
             environment {
                 GIT_REPO_NAME = "spring-petclinic"
