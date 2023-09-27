@@ -7,7 +7,7 @@ pipeline {
                 sh 'ls -ltr'
                 sh 'echo "$JOB_NAME"'
                 sh 'echo "Build the project using Gradle and create a JAR file"'
-                sh './gradlew -x spring-petclinic --refresh-dependencies clean build'
+                sh './gradlew -x --refresh-dependencies clean build'
                 //sh './gradlew -x spring-petclinic --refresh-dependencies clean build war -b build.gradle'
                 sh 'echo "Build generated successfully and created a JAR file"'
                 //sh 'java -jar target/*.jar &'
