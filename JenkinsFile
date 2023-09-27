@@ -6,37 +6,35 @@ pipeline {
                 sh 'pwd'
                 sh 'ls -ltr'
                 sh 'echo "$JOB_NAME"'
-                sh 'echo "Build the project using Gradle and create a JAR file"'
+                sh 'echo "Build the project using Gradle and create a Docker file"'
                 sh './gradlew -x test clean build'
-                //sh './gradlew -x spring-petclinic --refresh-dependencies clean build war -b build.gradle'
+                sh 'echo "Build generated successfully and created a Docker file"'
+            }
+        } 
+        stage('Build using Maven') {
+            steps {
+                sh 'pwd'
+                sh 'ls -ltr'
+                sh 'echo "$JOB_NAME"'
+                sh 'echo "Build the project and create a JAR file"'
+                sh './mvnw clean'
+                sh './mvnw package -DskipTests=true'
                 sh 'echo "Build generated successfully and created a JAR file"'
                 //sh 'java -jar target/*.jar &'
             }
-        } 
-        // stage('Build using Maven') {
-        //     steps {
-        //         sh 'pwd'
-        //         sh 'ls -ltr'
-        //         sh 'echo "$JOB_NAME"'
-        //         sh 'echo "Build the project and create a JAR file"'
-        //         sh './mvnw clean'
-        //         sh './mvnw package -DskipTests=true'
-        //         sh 'echo "Build generated successfully and created a JAR file"'
-        //         //sh 'java -jar target/*.jar &'
-        //     }
-        // }    
-        // stage('Test') {
-        //     steps {
-        //         sh 'ls -ltr'
-        //         sh 'echo "Test the project"'
-        //         sh './mvnw test'
-        //     }
-        //     post {
-        //         always {
-        //         junit '**/target/surefire-reports/TEST-*.xml'
-        //         }
-        //     }
-        // }
+        }    
+        stage('Test') {
+            steps {
+                sh 'ls -ltr'
+                sh 'echo "Test the project"'
+                sh './mvnw test'
+            }
+            post {
+                always {
+                junit '**/target/surefire-reports/TEST-*.xml'
+                }
+            }
+        }
         stage('Build Docker Image') {
             environment {
                 DOCKER_IMAGE = "ukrishna88/spring-petclinic:${BUILD_NUMBER}"
@@ -55,36 +53,36 @@ pipeline {
                 }
             }
         } 
-        // stage('Push Docker Build to Hub') {
-        //     steps {
-        //         script {
-        //             sh 'pwd'
-        //             sh 'ls -ltr'
-        //             sh 'echo "Pushing the Docker Image to Docker Hub"'
-        //                 withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
-        //                     sh 'docker login -u ukrishna88 -p ${docker-cred}'
-        //                     sh 'docker push ukrishna88/spring-petclinic:${BUILD_NUMBER}'
-        //                 }
-        //             sh 'echo "Pushing the Docker Image to Docker Hub Complete"'
-        //         }
-        //     }
-        // }
-        // stage('Pull Docker Image from Hub') {
-        //     steps {
-        //         script {
-        //             sh 'pwd'
-        //             sh 'ls -ltr'
-        //             sh 'echo "Pulling the Docker Image from the Docker Hub"'
-        //             sh 'docker image pull ukrishna88/spring-petclinic:${BUILD_NUMBER}'
-        //             sh 'docker images'    
-        //                 /* withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
-        //                     sh 'docker login -u ukrishna88 -p ${docker-cred}'
-        //                     sh 'docker image ukrishna88/spring-petclinic:${BUILD_NUMBER}'
-        //                 } */
-        //             sh 'echo "Pulling the Docker Image from the Docker Hub Complete"'
-        //         }
-        //     }
-        // }
+        stage('Push Docker Build to Hub') {
+            steps {
+                script {
+                    sh 'pwd'
+                    sh 'ls -ltr'
+                    sh 'echo "Pushing the Docker Image to Docker Hub"'
+                        withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
+                            sh 'docker login -u ukrishna88 -p ${docker-cred}'
+                            sh 'docker push ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+                        }
+                    sh 'echo "Pushing the Docker Image to Docker Hub Complete"'
+                }
+            }
+        }
+        stage('Pull Docker Image from Hub') {
+            steps {
+                script {
+                    sh 'pwd'
+                    sh 'ls -ltr'
+                    sh 'echo "Pulling the Docker Image from the Docker Hub"'
+                    sh 'docker image pull ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+                    sh 'docker images'    
+                        /* withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
+                            sh 'docker login -u ukrishna88 -p ${docker-cred}'
+                            sh 'docker image ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+                        } */
+                    sh 'echo "Pulling the Docker Image from the Docker Hub Complete"'
+                }
+            }
+        }
         stage('Saving Docker Image Locally') {
             steps {
                 script {
@@ -98,7 +96,7 @@ pipeline {
                 }
             }
         }
-        /* stage('Load & Run the Docker Image Locally') {
+        stage('Load & Run the Docker Image Locally') {
             steps {
                 script {
                     sh 'pwd'
@@ -113,13 +111,8 @@ pipeline {
 
                 }
             }
-        } */
-        // stage ('running the docker') {
-        //             docker {
-        //                     image 'ukrishna88/spring-petclinic:${BUILD_NUMBER}'
-        //                     }
-        // }
-        /* stage('Publish to JFrog Artifactory') {
+        } 
+        stage('Publish to JFrog Artifactory') {
             steps {
                 script {
                     def jFrog = Artifactory.server "${TARGET_ARTIFACTORY}"
@@ -147,51 +140,6 @@ pipeline {
                     jFrog.upload spec: uploadSpec
                 }
             }
-        } */
-        /* stage('Update Docker File to Git') {
-            environment {
-                GIT_REPO_NAME = "spring-petclinic"
-                GIT_USER_NAME = "ukrishna88"
-            }
-            steps {
-                withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]){
-                    sh '''
-                        git config user.email "ukrishna88@gmail.com"
-                        git config user.name "Krishnakumar Ulaganathan"
-                        git rev-parse --show-toplevel
-                        git ls-files
-                        git add .
-                        git commit -m 'Added Uploading Docker File to Git'
-                        git remote set url https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}
-                        git push -u origin ${BRANCH}
-                    '''
-                }
-                script {
-                    sh 'cd "${WORKSPACE}"'
-                    sh 'rm spring-petclinic/${BUILD_NUMBER}.tar'
-                }
-            }
-        } */
-        /* stage('Update Deployment File') {
-            environment {
-                GIT_REPO_NAME = "spring-petclinic"
-                GIT_USER_NAME = "ukrishna88"
-            }
-            steps {
-                withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]){
-                    sh '''
-                        git config user.email "ukrishna88@gmail.com"
-                        git config user.name "Krishnakumar Ulaganathan"
-                        BUILD_NUMBER=${BUILD_NUMBER}
-                        git ls-files -co
-                        git rev-parse --show-toplevel
-                        sed -i '' "s/replaceImageTag/${BUILD_NUMBER}/g" ${JOB_NAME}/deployment.yml
-                        git add ${JOB_NAME}/deployment.yml
-                        git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-                        git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
-                    '''
-                }
-            }
-        } */
+        }
     }
 }
