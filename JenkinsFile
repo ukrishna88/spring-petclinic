@@ -7,6 +7,7 @@ pipeline {
                 sh 'ls -ltr'
                 sh 'echo "$JOB_NAME"'
                 sh 'echo "Build the project and create a JAR file"'
+                sh './mvnw clean'
                 sh './mvnw package -DskipTests=true'
                 sh 'echo "Build generated successfully and created a JAR file"'
                 //sh 'java -jar target/*.jar'
