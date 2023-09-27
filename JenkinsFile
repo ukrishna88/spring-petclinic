@@ -92,9 +92,6 @@ pipeline {
                 GIT_USER_NAME = "ukrishna88"
             }
             steps {
-                script {
-                    sh 'cd "${WORKSPACE}/target"'
-                }
                 withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]){
                     sh '''
                         git config user.email "ukrishna88@gmail.com"
@@ -107,6 +104,7 @@ pipeline {
                     '''
                 }
                 script {
+                    sh 'cd "${WORKSPACE}"'
                     sh 'rm spring-petclinic/${BUILD_NUMBER}.tar'
                 }
             }
