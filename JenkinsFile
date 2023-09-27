@@ -43,36 +43,36 @@ pipeline {
                 }
             }
         } 
-        stage('Push Docker Build to Hub') {
-            steps {
-                script {
-                    sh 'pwd'
-                    sh 'ls -ltr'
-                    sh 'echo "Pushing the Docker Image to Docker Hub"'
-                        withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
-                            sh 'docker login -u ukrishna88 -p ${docker-cred}'
-                            sh 'docker push ukrishna88/spring-petclinic:${BUILD_NUMBER}'
-                        }
-                    sh 'echo "Pushing the Docker Image to Docker Hub Complete"'
-                }
-            }
-        }
-        stage('Pull Docker Image from Hub') {
-            steps {
-                script {
-                    sh 'pwd'
-                    sh 'ls -ltr'
-                    sh 'echo "Pulling the Docker Image from the Docker Hub"'
-                    sh 'docker image pull ukrishna88/spring-petclinic:${BUILD_NUMBER}'
-                    sh 'docker images'    
-                        /* withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
-                            sh 'docker login -u ukrishna88 -p ${docker-cred}'
-                            sh 'docker image ukrishna88/spring-petclinic:${BUILD_NUMBER}'
-                        } */
-                    sh 'echo "Pulling the Docker Image from the Docker Hub Complete"'
-                }
-            }
-        }
+        // stage('Push Docker Build to Hub') {
+        //     steps {
+        //         script {
+        //             sh 'pwd'
+        //             sh 'ls -ltr'
+        //             sh 'echo "Pushing the Docker Image to Docker Hub"'
+        //                 withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
+        //                     sh 'docker login -u ukrishna88 -p ${docker-cred}'
+        //                     sh 'docker push ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+        //                 }
+        //             sh 'echo "Pushing the Docker Image to Docker Hub Complete"'
+        //         }
+        //     }
+        // }
+        // stage('Pull Docker Image from Hub') {
+        //     steps {
+        //         script {
+        //             sh 'pwd'
+        //             sh 'ls -ltr'
+        //             sh 'echo "Pulling the Docker Image from the Docker Hub"'
+        //             sh 'docker image pull ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+        //             sh 'docker images'    
+        //                 /* withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
+        //                     sh 'docker login -u ukrishna88 -p ${docker-cred}'
+        //                     sh 'docker image ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+        //                 } */
+        //             sh 'echo "Pulling the Docker Image from the Docker Hub Complete"'
+        //         }
+        //     }
+        // }
         stage('Saving Docker Image Locally') {
             steps {
                 script {
@@ -80,7 +80,7 @@ pipeline {
                     sh 'ls -ltr'
                     //sh 'echo "$HOME"'
                     sh 'echo "Saving the Docker Image Locally"'
-                    sh 'docker save ukrishna88/spring-petclinic:${BUILD_NUMBER} >  ./target/spring-petclinic:${BUILD_NUMBER}.tar'
+                    sh 'docker save ukrishna88/spring-petclinic:${BUILD_NUMBER} >  ./docker_compressed/spring-petclinic:${BUILD_NUMBER}.tar'
                     sh 'echo "Saving Docker Image Locally Successful"'
                 }
             }
