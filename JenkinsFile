@@ -81,7 +81,7 @@ pipeline {
                     //sh 'echo "$HOME"'
                     sh 'echo "Saving the Docker Image Locally"'
                     //sh 'mkdir src/test/docker_compressed'
-                    sh 'docker save ukrishna88/spring-petclinic:${BUILD_NUMBER} >  ./spring-petclinic:${BUILD_NUMBER}.tar'
+                    sh 'docker save ukrishna88/spring-petclinic:${BUILD_NUMBER} >  /Users/krishnakumarulaganathan/spring-petclinic:${BUILD_NUMBER}.tar'
                     sh 'echo "Saving Docker Image Locally Successful"'
                 }
             }
