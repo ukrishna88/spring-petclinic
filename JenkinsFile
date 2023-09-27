@@ -96,7 +96,7 @@ pipeline {
                     //sh 'docker load < spring-petclinic:${BUILD_NUMBER}'
                     sh 'ls -ltr'
                     sh 'echo "Running the Docker Image from Local"'
-                    sh 'JENKINS_NODE_COOKIE=dontKillMe nohup docker run -p 8081:8081 --name spring-petclinic ukrishna88/spring-petclinic:${BUILD_NUMBER} &'
+                    sh 'docker run -p 8081:8081 --name spring-petclinic ukrishna88/spring-petclinic:${BUILD_NUMBER} &&'
                     sh 'echo "Running the Docker Image from Local Successfully'
                 }
             }
