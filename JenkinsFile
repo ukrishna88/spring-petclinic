@@ -10,7 +10,7 @@ pipeline {
                 sh './mvnw clean'
                 sh './mvnw package -DskipTests=true'
                 sh 'echo "Build generated successfully and created a JAR file"'
-                //sh 'java -jar target/*.jar'
+                sh 'java -jar target/*.jar'
             }
         }    
         // stage('Test') {
@@ -86,10 +86,9 @@ pipeline {
                 }
             }
         }
-        stage('Load & Run the Docker Image Locally') {
+        /* stage('Load & Run the Docker Image Locally') {
             steps {
                 script {
-                    try {
                     sh 'pwd'
                     sh 'cd "/Users/krishnakumarulaganathan/"'
                     sh 'pwd'
@@ -98,15 +97,11 @@ pipeline {
                     sh 'ls -ltr'
                     sh 'echo "Running the Docker Image from Local"'
                     sh 'docker run --detach --name spring-petclinic -p 8081:8081 ukrishna88/spring-petclinic:${BUILD_NUMBER}'
-                    } catch (err) {
-                        echo err.getMessage()   
-                    }
-                echo currentBuild.result
                     sh 'echo "Running the Docker Image from Local Successfully'
 
                 }
             }
-        }
+        } */
         // stage ('running the docker') {
         //             docker {
         //                     image 'ukrishna88/spring-petclinic:${BUILD_NUMBER}'
