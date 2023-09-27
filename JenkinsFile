@@ -103,8 +103,10 @@ pipeline {
         }
         stage('Run the Docker Image Locally') {
                 agent {
-                    docker {
-                       image 'ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+                    steps {
+                        docker {
+                            image 'ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+                            }
                     }
                 }
         }
