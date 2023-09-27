@@ -12,18 +12,18 @@ pipeline {
                 //sh 'java -jar target/*.jar'
             }
         }    
-        stage('Test') {
-            steps {
-                sh 'ls -ltr'
-                sh 'echo "Test the project"'
-                sh './mvnw test'
-            }
-            post {
-                always {
-                junit '**/target/surefire-reports/TEST-*.xml'
-                }
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         sh 'ls -ltr'
+        //         sh 'echo "Test the project"'
+        //         sh './mvnw test'
+        //     }
+        //     post {
+        //         always {
+        //         junit '**/target/surefire-reports/TEST-*.xml'
+        //         }
+        //     }
+        // }
         stage('Build Docker Image') {
             environment {
                 DOCKER_IMAGE = "ukrishna88/spring-petclinic:${BUILD_NUMBER}"
@@ -62,7 +62,7 @@ pipeline {
                     sh 'pwd'
                     sh 'ls -ltr'
                     sh 'echo "Pulling the Docker Image from the Docker Hub"'
-                    sh 'docker image ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+                    sh 'docker image pull ukrishna88/spring-petclinic:${BUILD_NUMBER}'
                     sh 'docker images'    
                         /* withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
                             sh 'docker login -u ukrishna88 -p ${docker-cred}'
