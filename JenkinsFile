@@ -80,6 +80,7 @@ pipeline {
                     sh 'ls -ltr'
                     //sh 'echo "$HOME"'
                     sh 'echo "Saving the Docker Image Locally"'
+                    sh 'mkdir docker_compressed'
                     sh 'docker save ukrishna88/spring-petclinic:${BUILD_NUMBER} >  ./docker_compressed/spring-petclinic:${BUILD_NUMBER}.tar'
                     sh 'echo "Saving Docker Image Locally Successful"'
                 }
