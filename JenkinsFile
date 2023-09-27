@@ -1,18 +1,32 @@
 pipeline {
     agent any
+     tools {
+        gradle 'Gradle'
+    }
     stages {
-        stage('Build') {
+        stage('Build using Gradle') {
             steps {
                 sh 'pwd'
                 sh 'ls -ltr'
                 sh 'echo "$JOB_NAME"'
-                sh 'echo "Build the project and create a JAR file"'
-                sh './mvnw clean'
-                sh './mvnw package -DskipTests=true'
+                sh 'echo "Build the project using Gradle and create a JAR file"'
+                sh './gradlew -x spring-petclinic --refresh-dependencies clean build war -b build.gradle'
                 sh 'echo "Build generated successfully and created a JAR file"'
-                sh 'java -jar target/*.jar &'
+                //sh 'java -jar target/*.jar &'
             }
-        }    
+        } 
+        // stage('Build using Maven') {
+        //     steps {
+        //         sh 'pwd'
+        //         sh 'ls -ltr'
+        //         sh 'echo "$JOB_NAME"'
+        //         sh 'echo "Build the project and create a JAR file"'
+        //         sh './mvnw clean'
+        //         sh './mvnw package -DskipTests=true'
+        //         sh 'echo "Build generated successfully and created a JAR file"'
+        //         //sh 'java -jar target/*.jar &'
+        //     }
+        // }    
         // stage('Test') {
         //     steps {
         //         sh 'ls -ltr'
@@ -107,6 +121,35 @@ pipeline {
         //                     image 'ukrishna88/spring-petclinic:${BUILD_NUMBER}'
         //                     }
         // }
+        /* stage('Publish to JFrog Artifactory') {
+            steps {
+                script {
+                    def jFrog = Artifactory.server "${TARGET_ARTIFACTORY}"
+                    def branchName = env.GIT_BRANCH
+                    if(branchName == 'main')
+
+                    targetFolder =  new Date().format("yyyyMMdd", TimeZone.getTimeZone('UTC')) + "/${branchName}"
+                    version = "${BUILD_NUMBER}"
+                    def uploadSpec = """{
+                          "files": [
+                                {
+                                  "pattern": "build/libs/Jars/*.jar",
+                                  "target": "${ARTIFACTORY_BASE}/spring-petclinic/${version}/${targetFolder}/1_Jars/"
+                                },
+                                {
+                                  "pattern": "build/libs/*.war",
+                                  "target": "${ARTIFACTORY_BASE}/spring-petclinic/${version}/${targetFolder}/2_WAR/"
+                                },
+                                {
+                                  "pattern": "build/libs/*.zip",
+                                  "target": "${ARTIFACTORY_BASE}/spring-petclinic/${version}/${targetFolder}/3_StaticContents/"
+                                }
+                         ]
+                    }"""
+                    jFrog.upload spec: uploadSpec
+                }
+            }
+        } */
         /* stage('Update Docker File to Git') {
             environment {
                 GIT_REPO_NAME = "spring-petclinic"
