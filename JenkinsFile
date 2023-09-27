@@ -96,19 +96,16 @@ pipeline {
                     //sh 'docker load < spring-petclinic:${BUILD_NUMBER}'
                     sh 'ls -ltr'
                     sh 'echo "Running the Docker Image from Local"'
-                    //sh 'docker run -p 8081:8081 --name spring-petclinic ukrishna88/spring-petclinic:${BUILD_NUMBER} ' 
+                    sh "docker run -p 8081:8081 --name spring-petclinic ukrishna88/spring-petclinic:${BUILD_NUMBER}"
                     sh 'echo "Running the Docker Image from Local Successfully'
                 }
             }
         }
-    }
-        stages {
-                agent {
-                    docker {
-                            image 'ukrishna88/spring-petclinic:${BUILD_NUMBER}'
-                            }
-                }
-        }
+        // stage ('running the docker') {
+        //             docker {
+        //                     image 'ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+        //                     }
+        // }
         /* stage('Update Docker File to Git') {
             environment {
                 GIT_REPO_NAME = "spring-petclinic"
@@ -154,4 +151,5 @@ pipeline {
                 }
             }
         } */
+    }
 }
