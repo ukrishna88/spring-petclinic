@@ -74,24 +74,23 @@ pipeline {
                 }
             }
         }
-        // stage('Saving Docker Image Locally') {
-        //     steps {
-        //         script {
-        //             sh 'pwd'
-        //             sh 'ls -ltr'
-        //             sh 'echo "Saving Docker Image Locally"'
-        //             sh 'docker save ukrishna88/spring-petclinic:${BUILD_NUMBER} > . spring-petclinic:${BUILD_NUMBER}.tar'
-        //             sh 'ls -ltr'
-        //             sh 'echo "Saving Docker Image Locally Successful"' 
-        //                 /* withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
-        //                     sh 'docker login -u ukrishna88 -p ${docker-cred}'
-        //                     sh 'docker image ukrishna88/spring-petclinic:${BUILD_NUMBER}'
-        //                 } */
-        //             sh 'ls -ltr'
-        //             sh 'echo "Pulling the Docker Image from the Docker Hub Complete"'
-        //         }
-        //     }
-        // }
+        stage('Saving Docker Image Locally') {
+            steps {
+                script {
+                    sh 'pwd'
+                    sh 'ls -ltr'
+                    sh 'echo "Saving the Docker Image Locally"'
+                    sh 'docker save ukrishna88/spring-petclinic:${BUILD_NUMBER} > /Users/krishnakumarulaganathan/spring-petclinic:${BUILD_NUMBER}.tar'
+                    sh 'ls -ltr'
+                    sh 'echo "Saving Docker Image Locally Successful"' 
+                        /* withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
+                            sh 'docker login -u ukrishna88 -p ${docker-cred}'
+                            sh 'docker image ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+                        } */
+                    sh 'ls -ltr'
+                }
+            }
+        }
         stage('Update Docker File to Git') {
             environment {
                 GIT_REPO_NAME = "spring-petclinic"
