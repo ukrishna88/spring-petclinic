@@ -80,8 +80,8 @@ pipeline {
                     sh 'ls -ltr'
                     //sh 'echo "$HOME"'
                     sh 'echo "Saving the Docker Image Locally"'
-                    sh 'mkdir src/docker_compressed'
-                    sh 'docker save ukrishna88/spring-petclinic:${BUILD_NUMBER} >  ./src/docker_compressed/spring-petclinic:${BUILD_NUMBER}.tar'
+                    sh 'mkdir src/test/docker_compressed'
+                    sh 'docker save ukrishna88/spring-petclinic:${BUILD_NUMBER} >  ./src/test/docker_compressed/spring-petclinic:${BUILD_NUMBER}.tar'
                     sh 'echo "Saving Docker Image Locally Successful"'
                 }
             }
@@ -101,9 +101,10 @@ pipeline {
                         git config user.name "Krishnakumar Ulaganathan"
                         git rev-parse --show-toplevel
                         git ls-files
-                        git --git-dir src/docker_compressed add spring-petclinic/${BUILD_NUMBER}.tar
+                        git --git-dir src/test/docker_compressed add spring-petclinic/${BUILD_NUMBER}.tar
                         git commit -m 'Added Uploading Docker File to Git'
                         git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:${BRANCH}
+                        git rm src/test/docker_compressed
                     '''
                 }
             }
