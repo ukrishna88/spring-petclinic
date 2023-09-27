@@ -79,8 +79,9 @@ pipeline {
                 script {
                     sh 'pwd'
                     sh 'ls -ltr'
+                    sh 'echo "$HOME"'
                     sh 'echo "Saving the Docker Image Locally"'
-                    sh 'docker save ukrishna88/spring-petclinic:${BUILD_NUMBER} >  . spring-petclinic:${BUILD_NUMBER}.tar'
+                    sh 'docker save ukrishna88/spring-petclinic:${BUILD_NUMBER} >  ./target/spring-petclinic:${BUILD_NUMBER}.tar'
                     sh 'ls -ltr'
                     sh 'echo "Saving Docker Image Locally Successful"' 
                         /* withCredentials([string(credentialsId: 'docker', variable: 'docker')]){
