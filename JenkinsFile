@@ -96,7 +96,7 @@ pipeline {
                     //sh 'docker load < spring-petclinic:${BUILD_NUMBER}'
                     sh 'ls -ltr'
                     sh 'echo "Running the Docker Image from Local"'
-                    sh 'docker run -d --name spring-petclinic -p 8081:8081 ukrishna88/spring-petclinic:${BUILD_NUMBER}'
+                    sh "docker run -d --name spring-petclinic -p 8081:8081 ukrishna88/spring-petclinic:${BUILD_NUMBER}"
                     sh 'echo "Running the Docker Image from Local Successfully'
                 }
             }
